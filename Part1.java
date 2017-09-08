@@ -7,9 +7,13 @@ public class Part1
         {
             endIndex = DNA.indexOf(stopCodon, endIndex + 1);
             //System.out.print(endIndex + " ");
-            if((endIndex - startIndex) % 3 == 0)
+            if(endIndex != -1 && (endIndex - startIndex) % 3 == 0)
+            {
+            //    System.out.println("returning " + endIndex);
                 return endIndex;
+            }
         }
+        //System.out.println("returing length " + DNA.length());
         return DNA.length();
     }
     
@@ -27,6 +31,46 @@ public class Part1
             return "";
         else
             return DNA.substring(startIndex, index + 3);
+    }
+    
+    void findAllGenes(String DNA)
+    {
+        String gene = "";
+        int count = 1;
+        int startIndex = 0;
+        int index = -1;
+        do
+        {
+            startIndex = DNA.indexOf("ATG", index + 1);
+            //System.out.println("line 44 executed");
+            if(startIndex == -1)
+                break;
+            //ystem.out.println("ATG: " + startIndex);
+            index = findStopCodon(DNA, startIndex, "TAA");
+            //System.out.println("line 44 executed");
+            //System.out.println("TAA: " + index);
+            if(index == DNA.length())
+            {
+                //System.out.println("in line 52 if");
+                index = findStopCodon(DNA, startIndex, "TAG");
+                //System.out.println("TAG: " + index);
+            }
+            if(index == DNA.length())
+                break;
+            gene = DNA.substring(startIndex, index + 3);
+            //System.out.println("line 60 executed");
+            System.out.println("Gene" + ": " + gene);
+        }while(gene != "");
+    }
+    
+    void testFindAllGene()
+    {
+        String DNA = "ATAATAAAATAATAAATAAATAGATTAGAATGTAG";
+        findAllGenes(DNA);
+        DNA = "GATCGATAGACTGATAGGGGATGCAGTATATCCCTGGATACAATAGACGCACAGGTTGGAATCCTAAGTGAAGTCGCGCGTCCGAACCCAGCTCTATTTTAGAGGTCATGGGTTCTGGTGCCCGCGAGCCGCGGAACCGATTAGGGGCATGTACAACAATATTTATTAGTCATCTTTCAGACACAATCTCCCAGCTCACTGGTATATAGTTCCTGCTATAATTAGCCTCCCTCATAAGTTGCACTACTTCAGCGTCCCAAATGCACCCTTACCACGAAGACAGGATTGTCCGATCCCATATTACGACCTTGGCAGGGGGTTCGCAAGTCCCACCCCAAACGATGCTGAAGGCTCAGGTTTCACAGGGACAAAAGCTTTAAACGCGAGTTCCCGCTCATAACCTGGACCGAATGCAGAATCATGCATCGTTCCACTGTGTTCGTGTCATCTAGGACGGGCGCAAAGGATATATAATTCAATTTTGAATACCTTATATTATTGTACACCTACCGGTCACCAGCCAACAATGTGCGGATGGCGTTACAACTTTCTGGGCCTAATCTGACCGTTCTAGATACCGCACTCTGGGCAATACGAGGTAAAGCCAGTCACCCAGTGTCGATCAACACCTAACCTAACGGTAAGAGGCTCACATAATGGCACTGTCGGCGTCCCCAGGGTATTTTACGTTAGCATCAGGTGGACTAACATGAATCTTTACTCCCAAGCGAAAACGGGTGCGTGGACTAGCGAGGAGCAAACGAAAATTCTTGGCCTGCTTGGTGTCTCGTATTCCTCTTAGAGATCGACGAAATGTTTCACGACCAAGGGAAAGGTCGCCCTACAAAATAGATTTGCGTTACTCTCTCCATAAGGAGTCCGGTGTAGCGAAGGATCAAGGCGACCCTAGGTAGCAACCGCCGGCTTCGGCGGTAAGGTATCACTCAAGAAGCAGACACAGTAAGACACGGTCTAGCTGACTGTCTATCGGCTAGGTCAA";
+        //DNA = "ATGATAAAATAATAAATAAATAGATTAGAATGTAG";
+        findAllGenes(DNA);
+        
     }
     
     void testFindStopCodon()
@@ -119,6 +163,7 @@ public class Part1
         //    System.out.println("No gene sequence presnt");
         //else 
         //    System.out.println("Gene: " + DNA.substring(startIndex, endIndex+3));
+
     }
 }
 
